@@ -7,6 +7,9 @@ gdjs.sitelegalCode.GDTextoCentralObjects3= [];
 gdjs.sitelegalCode.GDColorObjects1= [];
 gdjs.sitelegalCode.GDColorObjects2= [];
 gdjs.sitelegalCode.GDColorObjects3= [];
+gdjs.sitelegalCode.GDGDevObjects1= [];
+gdjs.sitelegalCode.GDGDevObjects2= [];
+gdjs.sitelegalCode.GDGDevObjects3= [];
 
 
 gdjs.sitelegalCode.asyncCallback38136092 = function (runtimeScene, asyncObjectsList) {
@@ -109,7 +112,7 @@ let isConditionTrue_0 = false;
 {
 gdjs.copyArray(runtimeScene.getObjects("Color"), gdjs.sitelegalCode.GDColorObjects1);
 {for(var i = 0, len = gdjs.sitelegalCode.GDColorObjects1.length ;i < len;++i) {
-    gdjs.sitelegalCode.GDColorObjects1[i].setY(gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0));
+    gdjs.sitelegalCode.GDColorObjects1[i].setY(12);
 }
 }
 {for(var i = 0, len = gdjs.sitelegalCode.GDColorObjects1.length ;i < len;++i) {
@@ -164,6 +167,33 @@ gdjs.sitelegalCode.eventsList1(runtimeScene);} //End of subevents
 }
 
 
+{
+
+gdjs.copyArray(runtimeScene.getObjects("GDev"), gdjs.sitelegalCode.GDGDevObjects1);
+
+let isConditionTrue_0 = false;
+isConditionTrue_0 = false;
+for (var i = 0, k = 0, l = gdjs.sitelegalCode.GDGDevObjects1.length;i<l;++i) {
+    if ( gdjs.sitelegalCode.GDGDevObjects1[i].getBehavior("ButtonFSM").IsClicked(null) ) {
+        isConditionTrue_0 = true;
+        gdjs.sitelegalCode.GDGDevObjects1[k] = gdjs.sitelegalCode.GDGDevObjects1[i];
+        ++k;
+    }
+}
+gdjs.sitelegalCode.GDGDevObjects1.length = k;
+if (isConditionTrue_0) {
+isConditionTrue_0 = false;
+{isConditionTrue_0 = runtimeScene.getOnceTriggers().triggerOnce(14926356);
+}
+}
+if (isConditionTrue_0) {
+{gdjs.evtTools.window.openURL("https://gd.games/LucYuih", runtimeScene);
+}
+}
+
+}
+
+
 };
 
 gdjs.sitelegalCode.func = function(runtimeScene) {
@@ -175,6 +205,9 @@ gdjs.sitelegalCode.GDTextoCentralObjects3.length = 0;
 gdjs.sitelegalCode.GDColorObjects1.length = 0;
 gdjs.sitelegalCode.GDColorObjects2.length = 0;
 gdjs.sitelegalCode.GDColorObjects3.length = 0;
+gdjs.sitelegalCode.GDGDevObjects1.length = 0;
+gdjs.sitelegalCode.GDGDevObjects2.length = 0;
+gdjs.sitelegalCode.GDGDevObjects3.length = 0;
 
 gdjs.sitelegalCode.eventsList2(runtimeScene);
 gdjs.sitelegalCode.GDTextoCentralObjects1.length = 0;
@@ -183,6 +216,9 @@ gdjs.sitelegalCode.GDTextoCentralObjects3.length = 0;
 gdjs.sitelegalCode.GDColorObjects1.length = 0;
 gdjs.sitelegalCode.GDColorObjects2.length = 0;
 gdjs.sitelegalCode.GDColorObjects3.length = 0;
+gdjs.sitelegalCode.GDGDevObjects1.length = 0;
+gdjs.sitelegalCode.GDGDevObjects2.length = 0;
+gdjs.sitelegalCode.GDGDevObjects3.length = 0;
 
 
 return;
