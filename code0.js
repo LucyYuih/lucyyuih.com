@@ -119,6 +119,14 @@ gdjs.copyArray(runtimeScene.getObjects("Color"), gdjs.sitelegalCode.GDColorObjec
     gdjs.sitelegalCode.GDColorObjects1[i].setCenterXInScene(gdjs.evtTools.camera.getCameraX(runtimeScene, "", 0));
 }
 }
+{for(var i = 0, len = gdjs.sitelegalCode.GDColorObjects1.length ;i < len;++i) {
+    gdjs.sitelegalCode.GDColorObjects1[i].setWrappingWidth(560 * Math.min(gdjs.evtTools.window.getGameResolutionWidth(runtimeScene) / 1280, gdjs.evtTools.window.getGameResolutionHeight(runtimeScene) / 720));
+}
+}
+{for(var i = 0, len = gdjs.sitelegalCode.GDColorObjects1.length ;i < len;++i) {
+    gdjs.sitelegalCode.GDColorObjects1[i].setWrapping(true);
+}
+}
 }
 
 }
