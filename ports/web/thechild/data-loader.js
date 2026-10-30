@@ -100,8 +100,8 @@ async function copyNetwork(FS, stream, manifest) {
           const url = new URL(part.file, import.meta.url);
           const response = await fetch(url, {cache:'no-store', credentials:'same-origin'});
           if (!response.ok || !response.body) throw Error(`HTTP ${response.status} em ${part.file}`);
-          const headerSize = Number(response.headers.get('Content-Length'));
-          if (headerSize && headerSize !== part.size) throw Error(`Tamanho inválido em ${part.file}`);
+          const transferLength = response.headers.get('Content-Length');
+          const encoding = response.headers.get('Content-Encoding') || 'identity';
           const reader = response.body.getReader();
           let signature = new Uint8Array(4);
           let signatureBytes = 0;
@@ -110,7 +110,7 @@ async function copyNetwork(FS, stream, manifest) {
             for (;;) {
               const {done,value} = await reader.read();
               if (done) break;
-              if (received + value.length > part.size) throw Error(`Parte excedeu seu tamanho: ${part.file}`);
+              if (received + value.length > part.size) throw Error(`Parte maior que o esperado: ${part.file} (${received + value.length}/${part.size} bytes; Content-Length=${transferLength || 'ausente'}; encoding=${encoding})`);
               if (start === 0 && signatureBytes < 4) {
                 const n = Math.min(4 - signatureBytes, value.length);
                 signature.set(value.subarray(0,n), signatureBytes);
@@ -131,7 +131,7 @@ async function copyNetwork(FS, stream, manifest) {
               setProgress(start + received,EXPECTED_SIZE);
             }
           } finally { reader.releaseLock(); }
-          if (received !== part.size) throw Error(`Parte incompleta: ${part.file}`);
+          if (received !== part.size) throw Error(`Parte incompleta: ${part.file} (${received}/${part.size} bytes; Content-Length=${transferLength || 'ausente'}; encoding=${encoding})`);
           success = true;
         } catch(err) {
           console.warn(`Falha em ${part.file}, tentativa ${attempt+1}/3:`,err);
