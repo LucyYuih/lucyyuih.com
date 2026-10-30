@@ -1,0 +1,48 @@
+name: Publicar site e The Child
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/cache@v4
+        id: chunks-cache
+        with:
+          path: .cache/thechild/data-chunks
+          key: thechild-data-win-v1-26acaabeef6bedce43e6d6cace4a70251f8d096bc9876e487ac25be608ebb36d
+      - name: Preparar os dados do jogo
+        if: steps.chunks-cache.outputs.cache-hit != 'true'
+        run: python3 ports/web/thechild/scripts/build_chunks.py --output .cache/thechild
+      - name: Preservar site e adicionar jogo
+        run: |
+          mkdir -p _site/ports/web/thechild
+          rsync -a --exclude='/.git/' --exclude='/.github/' --exclude='/.cache/' --exclude='/_site/' --exclude='/ports/web/thechild/scripts/' --exclude='/README-PUBLICAR.md' ./ _site/
+          cp -a .cache/thechild/data-chunks _site/ports/web/thechild/
+          touch _site/.nojekyll
+          test -f _site/CNAME
+          test -f _site/index.html
+          test -f _site/ports/web/thechild/index.html
+          test -f _site/ports/web/thechild/data-chunks/manifest.json
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
